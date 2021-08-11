@@ -46,6 +46,9 @@ public class LogHandlerTask implements Callable<Void> {
 
     @Override
     public Void call() throws Exception {
+
+        logger.info("Start log parser handler task.");
+
         final var defaultHostname = InetAddress.getLocalHost().getHostName();
         final var hostname = System.getProperty("hostname", defaultHostname);
 
@@ -142,6 +145,8 @@ public class LogHandlerTask implements Callable<Void> {
                 logger.error(ex.getMessage(), ex);
             }
         });
+
+        logger.info("Complete log parser handler task.");
 
         return null;
     }

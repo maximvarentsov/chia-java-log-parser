@@ -36,6 +36,8 @@ public class Main {
         final var config = ConfigHelper.saveAndLoad("config.json", JsonConfig.class);
         final var mongo = new MongoDatabaseManager(config.mongo.connection);
 
+        logger.info("Start log parser service.");
+
         createCollections(mongo, config);
 
         final var cron = new CronScheduler();
