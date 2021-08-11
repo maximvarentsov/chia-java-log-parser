@@ -9,4 +9,5 @@ public class LogFile {
     public String hostname;
     public Instant lastModifiedTime;
     public int lines;
+    public int linesMatches;
 }

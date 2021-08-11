@@ -83,10 +83,10 @@ public class LogHandlerTask implements Callable<Void> {
             logger.info("process log file {}", logFile);
 
             final var logEntries = new ArrayList<LogEntry>();
+            var matchesCounter = 0;
 
             try (final var br = new BufferedReader(new FileReader(logFile.toFile()))) {
                 var lineCounter = 0;
-                var matchesCounter = 0;
                 String line;
                 while ((line = br.readLine()) != null) {
                     lineCounter++;
@@ -135,6 +135,7 @@ public class LogHandlerTask implements Callable<Void> {
                 handledFile.lastModifiedTime = attrs.lastModifiedTime().toInstant();
                 handledFile.hostname = hostname;
                 handledFile.lines = logEntries.size();
+                handledFile.linesMatches = matchesCounter;
 
                 fileCollection.insertOne(handledFile);
             } catch (IOException ex) {
