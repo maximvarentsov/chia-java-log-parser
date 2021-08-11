@@ -2,5 +2,6 @@
   "mongo": {
     "connection": "mongodb+srv://rs0.mongodb.gatchina.pw/chia?replicaSet=rs0&ssl=false"
   },
+  "cappedLogCollectionSize": 2,
   "skipDebug": true
 }

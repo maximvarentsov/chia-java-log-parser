@@ -15,9 +15,9 @@ public class Main {
         System.setProperty("log4j.shutdownCallbackRegistry", StaticShutdownCallbackRegistry.class.getCanonicalName());
     }
 
-    public static void createCollections(final @NotNull MongoDatabaseManager mongo) {
+    public static void createCollections(final @NotNull MongoDatabaseManager mongo, final @NotNull JsonConfig config) {
         if (mongo.collectionNotExists(MongoDatabaseManager.collectionLogName)) {
-            final var sizeInBytes = (long) Math.pow(1024, 3) * 64; // 1GB * 64
+            final var sizeInBytes = (long) Math.pow(1024, 3) * config.cappedLogCollectionSize; // 1GB * 2
             final var opts = new CreateCollectionOptions().sizeInBytes(sizeInBytes).capped(true);
             mongo.getDatabase().createCollection(MongoDatabaseManager.collectionLogName, opts);
         }
@@ -36,7 +36,7 @@ public class Main {
         final var config = ConfigHelper.saveAndLoad("config.json", JsonConfig.class);
         final var mongo = new MongoDatabaseManager(config.mongo.connection);
 
-        createCollections(mongo);
+        createCollections(mongo, config);
 
         final var cron = new CronScheduler();
 
