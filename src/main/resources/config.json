@@ -1,0 +1,6 @@
+{
+  "mongo": {
+    "connection": "mongodb+srv://rs0.mongodb.gatchina.pw/chia?replicaSet=rs0&ssl=false"
+  },
+  "skipDebug": false
+}
