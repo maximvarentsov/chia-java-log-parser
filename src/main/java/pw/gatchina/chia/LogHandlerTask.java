@@ -34,13 +34,14 @@ public class LogHandlerTask implements Callable<Void> {
      * https://github.com/Chia-Network/chia-blockchain/blob/0ffbe1339cb2b44b7ce4fa4238b8d9c0b3dbfdec/chia/util/chia_logging.py#L14
      * Example from log: 2021-07-31T09:03:22.726
      */
-    public static DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-    public static String regExp = "(?<datetime>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3})\\s+(?<service>.*?):\\s+(?<level>INFO|ERROR|WARNING|DEBUG|CRITICAL)\\s+(?<message>.*?)\\Z";
-    public static Pattern pattern = Pattern.compile(regExp, Pattern.DOTALL);
+    private final DateTimeFormatter formatter ;
+    private final Pattern pattern;
 
     public LogHandlerTask(final @NotNull JsonConfig config, final @NotNull MongoDatabaseManager mongo) {
         this.mongo = mongo;
         this.config = config;
+        this.pattern = Pattern.compile(config.logLineRegExp, Pattern.DOTALL);
+        this.formatter = DateTimeFormatter.ofPattern(config.dateTimePattern);
     }
 
     @Override
